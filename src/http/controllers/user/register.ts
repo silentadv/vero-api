@@ -17,6 +17,6 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
   });
 
   reply.status(201).send({
-    user,
+    data: user,
   });
 }

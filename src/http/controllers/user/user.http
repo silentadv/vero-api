@@ -2,7 +2,7 @@
 @apiurl = http://localhost:3000
 
 ### POST user
-POST {{apiurl}}/users HTTP/1.1
+POST {{apiurl}}/user HTTP/1.1
 Content-Type: application/json
 
 {
@@ -11,7 +11,7 @@ Content-Type: application/json
 }
 
 ### POST magic-link
-POST {{apiurl}}/users/magic-link HTTP/1.1
+POST {{apiurl}}/user/magic-link HTTP/1.1
 Content-Type: application/json
 
 {
@@ -19,9 +19,9 @@ Content-Type: application/json
 }
 
 ### POST session/authenticate
-POST {{apiurl}}/users/sessions HTTP/1.1
+POST {{apiurl}}/user/sessions HTTP/1.1
 Content-Type: application/json
 
 {
-    "token": "e85c23bd-ef82-4bc6-b278-5afe548d9188"
+    "token": "996f0368-43fb-4451-9d96-473b75f80299"
 }

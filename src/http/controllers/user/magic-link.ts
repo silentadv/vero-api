@@ -1,4 +1,4 @@
-import { RedisMagicLinksRepository } from "@/repositories/redis/redis-magic-links-repository";
+import { makeCreateMagicLinkUseCase } from "@/use-cases/factories/make-create-magic-link-use-case";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
@@ -9,10 +9,10 @@ const magicLinkBodySchema = z.object({
 export async function magicLink(request: FastifyRequest, reply: FastifyReply) {
   const { email } = magicLinkBodySchema.parse(request.body);
 
-  const magicLinksRepository = new RedisMagicLinksRepository();
-  const token = await magicLinksRepository.create(email);
+  const createMagicLinkUseCase = makeCreateMagicLinkUseCase();
+  const { payload } = await createMagicLinkUseCase.handle({ email });
 
   reply.status(201).send({
-    token,
+    data: payload,
   });
 }

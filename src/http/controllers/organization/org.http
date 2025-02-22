@@ -1,0 +1,11 @@
+### Variables
+@apiurl = http://localhost:3000
+
+### POST user
+POST {{apiurl}}/organization HTTP/1.1
+Content-Type: application/json
+
+{
+    "name": "Union Lab",
+    "ownerId": "cm7gpnksg0001tybfup1812tk"
+}

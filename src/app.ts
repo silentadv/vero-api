@@ -4,6 +4,7 @@ import { env } from "./env";
 import { appRoutes } from "./http/routes";
 import { UserAlreadyExistsError } from "./use-cases/errors/users-already-exists-error";
 import { InvalidMagicLinkToken } from "./use-cases/errors/invalid-magic-link-token-error";
+import { ResourceNotFoundError } from "./use-cases/errors/resource-not-found-error";
 
 export const app = fastify();
 
@@ -12,6 +13,11 @@ app.setErrorHandler((error, _, reply) => {
     return reply.status(400).send({
       message: "Validation error.",
       issues: error.format(),
+    });
+
+  if (error instanceof ResourceNotFoundError)
+    return reply.status(400).send({
+      message: "Resource not found, invalid body has provided.",
     });
 
   if (error instanceof UserAlreadyExistsError)

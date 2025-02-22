@@ -18,6 +18,6 @@ export async function authenticate(
   });
 
   reply.status(200).send({
-    user,
+    data: user,
   });
 }

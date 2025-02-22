@@ -1,12 +1,13 @@
 import { MembersRepository } from "@/repositories/members-repository";
 import { OrganizationsRepository } from "@/repositories/organizations-repository";
 import { UsersRepository } from "@/repositories/users-repository";
-import { Member } from "@prisma/client";
+import { Member, Role } from "@prisma/client";
 import { ResourceNotFoundError } from "./errors/resource-not-found-error";
 
 export interface RegisterMemberUseCaseRequest {
   userId: string;
   organizationId: string;
+  role?: Role;
 }
 
 export interface RegisterMemberUseCaseResponse {
@@ -23,6 +24,7 @@ export class RegisterMemberUseCase {
   public async handle({
     userId,
     organizationId,
+    role = Role.Member,
   }: RegisterMemberUseCaseRequest): Promise<RegisterMemberUseCaseResponse> {
     const user = await this.usersRepository.findById(userId);
     if (!user) throw new ResourceNotFoundError("user");
@@ -35,6 +37,7 @@ export class RegisterMemberUseCase {
     const member = await this.membersRepository.create({
       user_id: userId,
       organization_id: organizationId,
+      role,
     });
 
     return { member };
