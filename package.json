@@ -1,0 +1,30 @@
+{
+  "name": "@vero/api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "tsx --env-file=.env --watch src/server.ts",
+    "start": "node build/server.js",
+    "build": "tsup src --out-dir build",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "author": "silentadv",
+  "license": "MIT",
+  "type": "commonjs",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^22.13.4",
+    "prisma": "^6.4.1",
+    "tsup": "^8.3.6",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3",
+    "vite-tsconfig-paths": "^5.1.4",
+    "vitest": "^3.0.6"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.4.1",
+    "fastify": "^5.2.1",
+    "zod": "^3.24.2"
+  }
+}
