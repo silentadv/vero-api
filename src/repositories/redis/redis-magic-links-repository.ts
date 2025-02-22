@@ -19,6 +19,6 @@ export class RedisMagicLinksRepository implements MagicLinksRepository {
     } satisfies MagicLinkPayload;
 
     await redis.set(payload.token, JSON.stringify(payload));
-    return payload.token;
+    return payload;
   }
 }

@@ -19,6 +19,6 @@ export class InMemoryMagicLinksRepository implements MagicLinksRepository {
 
     this.items.push(payload);
 
-    return payload.token;
+    return payload;
   }
 }

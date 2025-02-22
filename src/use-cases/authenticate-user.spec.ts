@@ -28,7 +28,7 @@ describe("Authenticate User Use Case", () => {
       email: "silent@example.com",
     });
 
-    const token = await magicLinksRepository.create("silent@example.com");
+    const { token } = await magicLinksRepository.create("silent@example.com");
 
     const { user } = await sut.handle({
       token,
@@ -46,7 +46,7 @@ describe("Authenticate User Use Case", () => {
   });
 
   it("should not be able to authenticate an non-existent user", async () => {
-    const token = await magicLinksRepository.create("silent@example.com");
+    const { token } = await magicLinksRepository.create("silent@example.com");
 
     await expect(() =>
       sut.handle({
@@ -61,9 +61,11 @@ describe("Authenticate User Use Case", () => {
       email: "silent@example.com",
     });
 
-    const token = await magicLinksRepository.create("silent@example.com");
+    const { token } = await magicLinksRepository.create("silent@example.com");
     vi.advanceTimersByTime(21 * 60 * 1000); // 21 minutes
 
-    await expect(() => sut.handle({ token })).rejects.toBeInstanceOf(Error);
+    await expect(() => sut.handle({ token })).rejects.toBeInstanceOf(
+      InvalidMagicLinkToken
+    );
   });
 });

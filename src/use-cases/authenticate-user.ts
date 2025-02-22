@@ -24,7 +24,7 @@ export class AuthenticateUserUseCase {
 
     const { email, expiresAt } = payload;
 
-    if (Date.now() >= expiresAt) throw new Error();
+    if (Date.now() >= expiresAt) throw new InvalidMagicLinkToken();
 
     const user = await this.usersRepository.findByEmail(email);
     if (!user) throw new ResourceNotFoundError("user");
