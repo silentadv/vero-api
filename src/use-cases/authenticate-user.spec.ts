@@ -1,17 +1,18 @@
 import { InMemoryUsersRepostory } from "@/repositories/in-memory/in-memory-users-repository";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { InMemoryMagicLinksRepository } from "@/repositories/in-memory/in-memory-magic-links-repository";
-import { AuthenticateUseCase } from "./authenticate";
+import { AuthenticateUserUseCase } from "./authenticate-user";
+import { ResourceNotFoundError } from "./errors/resource-not-found-error";
 
 let usersRepository: InMemoryUsersRepostory;
 let magicLinksRepository: InMemoryMagicLinksRepository;
-let sut: AuthenticateUseCase;
+let sut: AuthenticateUserUseCase;
 
-describe("Authenticate Use Case", () => {
+describe("Authenticate User Use Case", () => {
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepostory();
     magicLinksRepository = new InMemoryMagicLinksRepository();
-    sut = new AuthenticateUseCase(usersRepository, magicLinksRepository);
+    sut = new AuthenticateUserUseCase(usersRepository, magicLinksRepository);
 
     vi.useFakeTimers();
   });
@@ -20,7 +21,7 @@ describe("Authenticate Use Case", () => {
     vi.useRealTimers();
   });
 
-  it("should be able to authenticate", async () => {
+  it("should be able to authenticate user", async () => {
     await usersRepository.create({
       username: "silent",
       email: "silent@example.com",
@@ -35,7 +36,7 @@ describe("Authenticate Use Case", () => {
     expect(user.id).toEqual(expect.any(String));
   });
 
-  it("should not be able to authenticate with an invalid token", async () => {
+  it("should not be able to authenticate user with an invalid token", async () => {
     await expect(() =>
       sut.handle({
         token: "invalid-token",
@@ -43,7 +44,17 @@ describe("Authenticate Use Case", () => {
     ).rejects.toBeInstanceOf(Error);
   });
 
-  it("should not be able to authenticate with an expired token", async () => {
+  it("should not be able to authenticate an non-existent user", async () => {
+    const token = await magicLinksRepository.create("silent@example.com");
+
+    await expect(() =>
+      sut.handle({
+        token,
+      })
+    ).rejects.toBeInstanceOf(ResourceNotFoundError);
+  });
+
+  it("should not be able to authenticate user with an expired token", async () => {
     await usersRepository.create({
       username: "silent",
       email: "silent@example.com",

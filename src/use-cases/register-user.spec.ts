@@ -1,17 +1,17 @@
 import { InMemoryUsersRepostory } from "@/repositories/in-memory/in-memory-users-repository";
-import { RegisterUseCase } from "./register";
+import { RegisterUserUseCase } from "./register-user";
 import { beforeEach, describe, expect, it } from "vitest";
 
 let usersRepository: InMemoryUsersRepostory;
-let sut: RegisterUseCase;
+let sut: RegisterUserUseCase;
 
-describe("Register Use Case", () => {
+describe("Register User Use Case", () => {
   beforeEach(() => {
     usersRepository = new InMemoryUsersRepostory();
-    sut = new RegisterUseCase(usersRepository);
+    sut = new RegisterUserUseCase(usersRepository);
   });
 
-  it("should be possible to register.", async () => {
+  it("should be possible to register user.", async () => {
     const { user } = await sut.handle({
       username: "Silent",
       email: "silent@example.com",
@@ -20,7 +20,7 @@ describe("Register Use Case", () => {
     expect(user.id).toEqual(expect.any(String));
   });
 
-  it("should not be possible to register with same email.", async () => {
+  it("should not be possible to register user with same email.", async () => {
     await sut.handle({
       username: "Silent",
       email: "silent@example.com",

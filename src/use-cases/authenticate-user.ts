@@ -1,22 +1,23 @@
 import { MagicLinksRepository } from "@/repositories/magic-links-repository";
 import { UsersRepository } from "@/repositories/users-repository";
 import { User } from "@prisma/client";
+import { ResourceNotFoundError } from "./errors/resource-not-found-error";
 
-export interface AuthenticateUseCaseRequest {
+export interface AuthenticateUserUseCaseRequest {
   token: string;
 }
-export interface AuthenticateUseCaseResponse {
+export interface AuthenticateUserUseCaseResponse {
   user: User;
 }
 
-export class AuthenticateUseCase {
+export class AuthenticateUserUseCase {
   public constructor(
-    public usersRepository: UsersRepository,
-    public magicLinksRepository: MagicLinksRepository
+    private usersRepository: UsersRepository,
+    private magicLinksRepository: MagicLinksRepository
   ) {}
   public async handle({
     token,
-  }: AuthenticateUseCaseRequest): Promise<AuthenticateUseCaseResponse> {
+  }: AuthenticateUserUseCaseRequest): Promise<AuthenticateUserUseCaseResponse> {
     const payload = await this.magicLinksRepository.find(token);
     if (!payload) throw new Error();
 
@@ -25,7 +26,7 @@ export class AuthenticateUseCase {
     if (Date.now() >= expiresAt) throw new Error();
 
     const user = await this.usersRepository.findByEmail(email);
-    if (!user) throw new Error();
+    if (!user) throw new ResourceNotFoundError("user");
 
     return { user };
   }

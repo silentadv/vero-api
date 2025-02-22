@@ -1,20 +1,20 @@
 import { UsersRepository } from "@/repositories/users-repository";
 import { User } from "@prisma/client";
 
-export interface RegisterUseCaseRequest {
+export interface RegisterUserUseCaseRequest {
   username: string;
   email: string;
 }
-export interface RegisterUseCaseResponse {
+export interface RegisterUserUseCaseResponse {
   user: User;
 }
 
-export class RegisterUseCase {
-  public constructor(public usersRepository: UsersRepository) {}
+export class RegisterUserUseCase {
+  public constructor(private usersRepository: UsersRepository) {}
   public async handle({
     username,
     email,
-  }: RegisterUseCaseRequest): Promise<RegisterUseCaseResponse> {
+  }: RegisterUserUseCaseRequest): Promise<RegisterUserUseCaseResponse> {
     const userWithSameEmail = await this.usersRepository.findByEmail(email);
     if (userWithSameEmail) throw new Error();
 

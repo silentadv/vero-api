@@ -1,6 +1,6 @@
 # Vero API
 
-...
+Vero is an application that provides a workspace for organizations to manage their service offerings.
 
 # Functional Requirements (RFs)
 
@@ -11,7 +11,9 @@
 
 # Rules (RNs)
 
-- [ ] It should not be possible to register with same email.
+- [ ] It should not be possible to UserRegister with same email.
+- [ ] When a user creates an organization,
+      they must be automatically added as a member with the 'owner' role.
 - [x] Magic-links must expire in 20 minutes.
 
 # Non-functional Requirements (NRFs)
