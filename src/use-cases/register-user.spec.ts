@@ -1,6 +1,7 @@
 import { InMemoryUsersRepostory } from "@/repositories/in-memory/in-memory-users-repository";
 import { RegisterUserUseCase } from "./register-user";
 import { beforeEach, describe, expect, it } from "vitest";
+import { UserAlreadyExistsError } from "./errors/users-already-exists-error";
 
 let usersRepository: InMemoryUsersRepostory;
 let sut: RegisterUserUseCase;
@@ -31,6 +32,6 @@ describe("Register User Use Case", () => {
         username: "Silent 2",
         email: "silent@example.com",
       })
-    ).rejects.toBeInstanceOf(Error);
+    ).rejects.toBeInstanceOf(UserAlreadyExistsError);
   });
 });

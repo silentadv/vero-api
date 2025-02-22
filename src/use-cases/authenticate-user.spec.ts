@@ -3,6 +3,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { InMemoryMagicLinksRepository } from "@/repositories/in-memory/in-memory-magic-links-repository";
 import { AuthenticateUserUseCase } from "./authenticate-user";
 import { ResourceNotFoundError } from "./errors/resource-not-found-error";
+import { InvalidMagicLinkToken } from "./errors/invalid-magic-link-token-error";
 
 let usersRepository: InMemoryUsersRepostory;
 let magicLinksRepository: InMemoryMagicLinksRepository;
@@ -41,7 +42,7 @@ describe("Authenticate User Use Case", () => {
       sut.handle({
         token: "invalid-token",
       })
-    ).rejects.toBeInstanceOf(Error);
+    ).rejects.toBeInstanceOf(InvalidMagicLinkToken);
   });
 
   it("should not be able to authenticate an non-existent user", async () => {

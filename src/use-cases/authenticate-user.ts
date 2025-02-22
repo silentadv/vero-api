@@ -2,6 +2,7 @@ import { MagicLinksRepository } from "@/repositories/magic-links-repository";
 import { UsersRepository } from "@/repositories/users-repository";
 import { User } from "@prisma/client";
 import { ResourceNotFoundError } from "./errors/resource-not-found-error";
+import { InvalidMagicLinkToken } from "./errors/invalid-magic-link-token-error";
 
 export interface AuthenticateUserUseCaseRequest {
   token: string;
@@ -19,7 +20,7 @@ export class AuthenticateUserUseCase {
     token,
   }: AuthenticateUserUseCaseRequest): Promise<AuthenticateUserUseCaseResponse> {
     const payload = await this.magicLinksRepository.find(token);
-    if (!payload) throw new Error();
+    if (!payload) throw new InvalidMagicLinkToken();
 
     const { email, expiresAt } = payload;
 

@@ -1,0 +1,27 @@
+### Variables
+@apiurl = http://localhost:3000
+
+### POST user
+POST {{apiurl}}/users HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "carlos",
+    "email": "carlos@example.com"
+}
+
+### POST magic-link
+POST {{apiurl}}/users/magic-link HTTP/1.1
+Content-Type: application/json
+
+{
+    "email": "carlos@example.com"
+}
+
+### POST session/authenticate
+POST {{apiurl}}/users/sessions HTTP/1.1
+Content-Type: application/json
+
+{
+    "token": "e85c23bd-ef82-4bc6-b278-5afe548d9188"
+}
