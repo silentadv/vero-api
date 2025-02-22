@@ -7,6 +7,11 @@ export class InMemoryOrganizationsRepository
 {
   public items: Organization[] = [];
 
+  public async findById(id: string) {
+    const organization = this.items.find((item) => item.id === id);
+    return organization || null;
+  }
+
   public async create(data: Prisma.OrganizationUncheckedCreateInput) {
     const organization = {
       id: data.id ?? randomUUID(),
