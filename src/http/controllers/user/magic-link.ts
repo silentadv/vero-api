@@ -12,7 +12,7 @@ export async function magicLink(request: FastifyRequest, reply: FastifyReply) {
   const createMagicLinkUseCase = makeCreateMagicLinkUseCase();
   const { payload } = await createMagicLinkUseCase.handle({ email });
 
-  reply.status(201).send({
+  return reply.status(201).send({
     data: payload,
   });
 }

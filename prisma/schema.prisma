@@ -43,9 +43,21 @@ model Organization {
   slug String @unique
   name String
 
-  members Member[]
+  members  Member[]
+  services Service[]
 
   createdAt DateTime @default(now())
 
   @@map("organizations")
+}
+
+model Service {
+  id              String @id @default(cuid())
+  organization_id String
+  name            String
+
+  organization Organization @relation(fields: [organization_id], references: [id])
+
+  @@unique([organization_id, name])
+  @@map("services")
 }

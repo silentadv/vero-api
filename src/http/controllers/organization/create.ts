@@ -29,7 +29,7 @@ export async function create(request: FastifyRequest, reply: FastifyReply) {
     role: Role.Owner,
   });
 
-  reply.status(201).send({
+  return reply.status(201).send({
     data: { ...organization, members: [member] },
   });
 }

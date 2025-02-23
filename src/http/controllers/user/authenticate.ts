@@ -17,7 +17,7 @@ export async function authenticate(
     token,
   });
 
-  reply.status(200).send({
+  return reply.status(200).send({
     data: user,
   });
 }
