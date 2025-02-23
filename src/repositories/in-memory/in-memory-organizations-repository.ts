@@ -12,10 +12,16 @@ export class InMemoryOrganizationsRepository
     return organization || null;
   }
 
+  public async findBySlug(slug: string) {
+    const organization = this.items.find((item) => item.slug === slug);
+    return organization || null;
+  }
+
   public async create(data: Prisma.OrganizationUncheckedCreateInput) {
     const organization = {
       id: data.id ?? randomUUID(),
       name: data.name,
+      slug: data.slug,
       createdAt: new Date(),
     } satisfies Organization;
 

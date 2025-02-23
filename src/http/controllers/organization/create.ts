@@ -6,16 +6,20 @@ import { z } from "zod";
 
 const createOrganizationBodySchema = z.object({
   name: z.string().min(3).max(30),
+  slug: z.string().min(3),
   ownerId: z.string(),
 });
 
 export async function create(request: FastifyRequest, reply: FastifyReply) {
-  const { name, ownerId } = createOrganizationBodySchema.parse(request.body);
+  const { name, slug, ownerId } = createOrganizationBodySchema.parse(
+    request.body
+  );
 
   const createOrganizationUseCase = makeCreateOrganizationUseCase();
   const { organization } = await createOrganizationUseCase.handle({
     name,
     ownerId,
+    slug,
   });
 
   const registerMemberUseCase = makeRegisterMemberUseCase();

@@ -7,5 +7,6 @@ Content-Type: application/json
 
 {
     "name": "Union Lab",
-    "ownerId": "cm7gpnksg0001tybfup1812tk"
+    "slug": "union-lab-2",
+    "ownerId": "cm7gvyoiw0000tyn73e89k52b"
 }

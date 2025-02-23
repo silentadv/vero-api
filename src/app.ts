@@ -5,6 +5,7 @@ import { appRoutes } from "./http/routes";
 import { UserAlreadyExistsError } from "./use-cases/errors/users-already-exists-error";
 import { InvalidMagicLinkToken } from "./use-cases/errors/invalid-magic-link-token-error";
 import { ResourceNotFoundError } from "./use-cases/errors/resource-not-found-error";
+import { OrganizationAlreadyExistsError } from "./use-cases/errors/organization-already-exists-error";
 
 export const app = fastify();
 
@@ -22,7 +23,12 @@ app.setErrorHandler((error, _, reply) => {
 
   if (error instanceof UserAlreadyExistsError)
     return reply.status(409).send({
-      message: "Already exists an user with same email.",
+      message: error.message,
+    });
+
+  if (error instanceof OrganizationAlreadyExistsError)
+    return reply.status(409).send({
+      message: error.message,
     });
 
   if (error instanceof InvalidMagicLinkToken)

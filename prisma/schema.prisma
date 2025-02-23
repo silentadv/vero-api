@@ -18,8 +18,8 @@ model User {
   email    String @unique
   username String
 
-  createdAt DateTime @default(now())
-  Member    Member[]
+  createdAt   DateTime @default(now())
+  memberships Member[]
 
   @@map("users")
 }
@@ -40,6 +40,7 @@ model Member {
 
 model Organization {
   id   String @id @default(cuid())
+  slug String @unique
   name String
 
   members Member[]

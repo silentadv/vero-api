@@ -11,6 +11,14 @@ export class PrismaOrganizationsRepository implements OrganizationsRepository {
     return organization;
   }
 
+  public async findBySlug(slug: string) {
+    const organization = await prisma.organization.findUnique({
+      where: { slug },
+    });
+
+    return organization;
+  }
+
   public async create(data: Prisma.OrganizationUncheckedCreateInput) {
     const organization = await prisma.organization.create({ data });
     return organization;
